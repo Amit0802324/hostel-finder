@@ -26,7 +26,7 @@ function applyFilters(){
  let found=0;
  document.querySelectorAll('.hostel-card').forEach(card=>{
   const loc=card.dataset.location.toLowerCase();
-  const name=card.dataset.name.toLowerCase();
+  const name=(card.dataset.name||'').toLowerCase();
   const ok=(!q||loc.includes(q)||name.includes(q))&&(type==='all'||card.dataset.gender===type)&&(max==='all'||Number(card.dataset.price)<=Number(max));
   card.style.display=ok?'block':'none';if(ok)found++;
  });
@@ -36,10 +36,12 @@ function applyFilters(){
 function searchHostels(){applyFilters();document.getElementById('hostels').scrollIntoView({behavior:'smooth'})}
 function setCity(city){document.getElementById('locationInput').value=city==='all'?'':city;searchHostels()}
 function filterByPrice(){applyFilters()}
+function mapUrl(location){return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`}
+
 function viewDetails(name){
  const h=hostelData[name];if(!h)return;activeHostel=name;
  document.getElementById('modalTitle').textContent=name;
- document.getElementById('modalBody').innerHTML=`<div class="detail-row"><strong>📍 Location</strong><span>${h.location}</span></div><div class="detail-row"><strong>🛏️ Stay type</strong><span>${h.type}</span></div><div class="detail-row"><strong>💰 Price</strong><span>₹${h.price}/night</span></div><div class="detail-row"><strong>⭐ Rating</strong><span>${h.rating}</span></div><div class="detail-row"><strong>✨ Amenities</strong><span>${h.amenities}</span></div>`;
+ document.getElementById('modalBody').innerHTML=`<div class="detail-row"><strong>📍 Location</strong><span>${h.location}</span></div><div class="detail-row"><strong>🛏️ Stay type</strong><span>${h.type}</span></div><div class="detail-row"><strong>💰 Price</strong><span>₹${h.price}/night</span></div><div class="detail-row"><strong>⭐ Rating</strong><span>${h.rating}</span></div><div class="detail-row"><strong>✨ Amenities</strong><span>${h.amenities}</span></div><a href="${mapUrl(h.location)}" target="_blank" rel="noopener" class="primary-action" style="display:block;text-align:center;text-decoration:none;margin-top:18px">📍 Open location in Google Maps</a>`;
  document.getElementById('modalBookBtn').onclick=()=>{closeDetails();openBooking(name)};
  document.getElementById('detailsModal').classList.add('show');
 }
@@ -54,16 +56,24 @@ function calculateTotal(){
  if(nights<=0){document.getElementById('bookingTotal').textContent='Choose valid dates';return}
  const total=nights*hostelData[activeHostel].price*g;document.getElementById('bookingTotal').textContent=`₹${total.toLocaleString('en-IN')} (${nights} night${nights>1?'s':''})`;
 }
-document.getElementById('checkIn').addEventListener('change',calculateTotal);document.getElementById('checkOut').addEventListener('change',calculateTotal);document.getElementById('guests').addEventListener('change',calculateTotal);
 function confirmBooking(){
- const a=document.getElementById('checkIn').value,b=document.getElementById('checkOut').value;
+ const a=document.getElementById('checkIn').value,b=document.getElementById('checkOut').value,g=Number(document.getElementById('guests').value);
  if(!a||!b||new Date(b)<=new Date(a)){alert('Please select valid check-in and check-out dates.');return}
- const g=document.getElementById('guests').value;
- alert(`Booking request received!\n\n${activeHostel}\n${a} → ${b}\nGuests: ${g}\n\nThis is a demo booking — no payment has been taken.`);closeBooking();
+ const h=hostelData[activeHostel];
+ const nights=Math.ceil((new Date(b)-new Date(a))/86400000);
+ const booking={id:'HF-'+Date.now(),hostel:activeHostel,location:h.location,checkIn:a,checkOut:b,guests:g,nights,total:nights*g*h.price};
+ const saved=JSON.parse(localStorage.getItem('hostelFinderBookings')||'[]');saved.push(booking);localStorage.setItem('hostelFinderBookings',JSON.stringify(saved));
+ alert(`Booking confirmed!\n\n${activeHostel}\n${a} → ${b}\nGuests: ${g}\nTotal: ₹${booking.total.toLocaleString('en-IN')}\nBooking ID: ${booking.id}\n\nDemo booking — no payment has been taken.`);
+ closeBooking();
+}
+function openMyBookings(){
+ const bookings=JSON.parse(localStorage.getItem('hostelFinderBookings')||'[]');
+ if(!bookings.length){alert('No bookings yet. Choose a hostel and click Book stay.');return}
+ alert(bookings.map(b=>`${b.id} · ${b.hostel}\n${b.checkIn} → ${b.checkOut} · ${b.guests} guest(s) · ₹${b.total.toLocaleString('en-IN')}`).join('\n\n'));
 }
 function openLogin(){document.getElementById('loginModal').classList.add('show')}
 function closeLogin(){document.getElementById('loginModal').classList.remove('show')}
-function handleLogin(e){e.preventDefault();alert('Demo login successful!');closeLogin();e.target.reset()}
+function handleLogin(e){e.preventDefault();localStorage.setItem('hostelFinderUser',document.getElementById('loginEmail').value);alert('Demo login successful!');closeLogin();e.target.reset()}
 window.addEventListener('click',e=>{if(e.target.id==='detailsModal')closeDetails();if(e.target.id==='bookingModal')closeBooking();if(e.target.id==='loginModal')closeLogin()});
 window.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDetails();closeBooking();closeLogin()}});
 applyFilters();
