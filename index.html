@@ -1,167 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hostel Finder India - discover hostels, PGs and rooms across India.">
-    <title>Hostel Finder India | Find • Compare • Stay</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Hostel Finder India - backpacker hostels, dorms and private rooms across India.">
+<title>Hostel Finder India | Backpacker Hostels</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="navbar">
-    <a class="logo" href="#">🏠 <span>Hostel</span>Finder</a>
-    <nav>
-        <a href="#">Home</a>
-        <a href="#hostels">Explore</a>
-        <a href="#cities">Cities</a>
-        <a href="#about">About</a>
-    </nav>
-    <button class="login-btn" onclick="openLogin()">Login</button>
+<a class="logo" href="#">🏠 <span>Hostel</span>Finder</a>
+<nav><a href="#">Home</a><a href="#hostels">Hostels</a><a href="#destinations">Destinations</a><a href="#about">About</a></nav>
+<button class="login-btn" onclick="openLogin()">Login</button>
 </header>
+<section class="hero"><div class="hero-glow glow-one"></div><div class="hero-glow glow-two"></div><div class="hero-content">
+<span class="hero-badge">🎒 Made for backpackers & travellers</span>
+<h1>Stay. Explore.<br><span>Meet new people.</span></h1>
+<p>Find backpacker hostels, dorms and private rooms at India's best travel destinations.</p>
+<div class="search-box"><div class="search-field"><span>📍</span><input id="locationInput" type="text" placeholder="Where are you going? e.g. Goa, Manali, Rishikesh" onkeydown="if(event.key==='Enter')searchHostels()"></div><select id="genderFilter"><option value="all">👥 All stays</option><option value="mixed">🧑‍🤝‍🧑 Mixed Dorm</option><option value="female">👩 Female Dorm</option><option value="male">👨 Male Dorm</option><option value="private">🛏️ Private Room</option></select><button onclick="searchHostels()">🔎 Search</button></div>
+<div class="hero-stats"><div><strong>18+</strong><span>Travel hostels</span></div><div><strong>15+</strong><span>Destinations</span></div><div><strong>₹399</strong><span>Starting/night</span></div></div>
+</div></section>
+<section class="cities" id="destinations"><div class="section-heading"><span class="eyebrow">TRAVEL INDIA</span><h2>Popular backpacker destinations</h2><p>From beaches and mountains to culture and cafés.</p></div><div class="city-chips">
+<button onclick="setCity('all')">🇮🇳 All India</button><button onclick="setCity('goa')">🏖️ Goa</button><button onclick="setCity('manali')">🏔️ Manali</button><button onclick="setCity('kasol')">🌲 Kasol</button><button onclick="setCity('rishikesh')">🧘 Rishikesh</button><button onclick="setCity('jaipur')">🏰 Jaipur</button><button onclick="setCity('udaipur')">🌅 Udaipur</button><button onclick="setCity('jaisalmer')">🐪 Jaisalmer</button><button onclick="setCity('varanasi')">🛕 Varanasi</button><button onclick="setCity('dharamkot')">⛰️ Dharamkot</button><button onclick="setCity('bir')">🪂 Bir</button><button onclick="setCity('hampi')">🪨 Hampi</button><button onclick="setCity('gokarna')">🌊 Gokarna</button><button onclick="setCity('pondicherry')">🌴 Pondicherry</button><button onclick="setCity('mcleodganj')">🏔️ McLeod Ganj</button><button onclick="setCity('delhi')">🏙️ Delhi</button><button onclick="setCity('mumbai')">🌆 Mumbai</button><button onclick="setCity('leh')">🏔️ Leh</button>
+</div></section>
+<section class="container" id="hostels"><div class="section-header"><div><span class="eyebrow">BACKPACKER STAYS</span><h2>Hostels across India</h2><p>Dorm beds, private rooms, social spaces and travel-friendly stays.</p><span id="resultCount" class="result-count">18 hostels found</span></div><select id="priceFilter" onchange="filterByPrice()"><option value="all">Price: All</option><option value="600">Under ₹600/night</option><option value="1000">Under ₹1,000/night</option><option value="1500">Under ₹1,500/night</option><option value="2500">Under ₹2,500/night</option></select></div>
+<div class="hostel-grid" id="hostelList">
 
-<section class="hero">
-    <div class="hero-glow glow-one"></div>
-    <div class="hero-glow glow-two"></div>
-    <div class="hero-content">
-        <span class="hero-badge">🇮🇳 India's Hostel Discovery Platform</span>
-        <h1>Find a place that<br><span>feels like home.</span></h1>
-        <p>Discover affordable hostels, PGs and student rooms across India.</p>
-        <div class="search-box">
-            <div class="search-field">
-                <span>📍</span>
-                <input type="text" id="locationInput" placeholder="Search city, area or hostel..." onkeydown="if(event.key==='Enter') searchHostels()">
-            </div>
-            <select id="genderFilter" aria-label="Hostel type">
-                <option value="all">👥 All types</option>
-                <option value="boys">👨 Boys</option>
-                <option value="girls">👩 Girls</option>
-                <option value="coed">👫 Co-ed</option>
-            </select>
-            <button onclick="searchHostels()">🔎 Search</button>
-        </div>
-        <div class="hero-stats">
-            <div><strong>12+</strong><span>Demo listings</span></div>
-            <div><strong>10+</strong><span>Major cities</span></div>
-            <div><strong>₹4.5K</strong><span>Starting rent</span></div>
-        </div>
-    </div>
-</section>
-
-<section class="cities" id="cities">
-    <div class="section-heading">
-        <div><span class="eyebrow">EXPLORE INDIA</span><h2>Popular cities</h2><p>Choose a city to discover available stays.</p></div>
-    </div>
-    <div class="city-chips">
-        <button onclick="setCity('all')">🇮🇳 All India</button>
-        <button onclick="setCity('delhi')">Delhi NCR</button>
-        <button onclick="setCity('mumbai')">Mumbai</button>
-        <button onclick="setCity('bangalore')">Bengaluru</button>
-        <button onclick="setCity('pune')">Pune</button>
-        <button onclick="setCity('hyderabad')">Hyderabad</button>
-        <button onclick="setCity('indore')">Indore</button>
-        <button onclick="setCity('bhopal')">Bhopal</button>
-        <button onclick="setCity('jaipur')">Jaipur</button>
-        <button onclick="setCity('chandigarh')">Chandigarh</button>
-        <button onclick="setCity('kolkata')">Kolkata</button>
-        <button onclick="setCity('ahmedabad')">Ahmedabad</button>
-    </div>
-</section>
-
-<section class="container" id="hostels">
-    <div class="section-header">
-        <div>
-            <span class="eyebrow">STAY YOUR WAY</span>
-            <h2>Hostels across India</h2>
-            <p>Compare location, rent, type and amenities.</p>
-            <span id="resultCount" class="result-count">12 hostels found</span>
-        </div>
-        <select id="priceFilter" onchange="filterByPrice()" aria-label="Price filter">
-            <option value="all">Price: All</option>
-            <option value="5000">Under ₹5,000</option>
-            <option value="8000">Under ₹8,000</option>
-            <option value="12000">Under ₹12,000</option>
-            <option value="15000">Under ₹15,000</option>
-        </select>
-    </div>
-
-    <div class="hostel-grid" id="hostelList">
-        <article class="hostel-card" data-location="delhi new delhi noida gurgaon ncr" data-gender="boys" data-price="8500">
-            <div class="hostel-image image-delhi"><span>🏙️</span><small>DELHI NCR</small></div>
-            <div class="card-content"><div class="card-top"><span class="tag boys">Boys</span><span class="rating">★ 4.6</span></div><h3>MetroNest Residency</h3><p class="location">📍 New Delhi, Delhi</p><p>Metro-connected rooms with Wi-Fi, meals, laundry and 24×7 security.</p><div class="card-bottom"><strong>₹8,500<span>/month</span></strong><button onclick="viewDetails('MetroNest Residency')">View details</button></div></div>
-        </article>
-
-        <article class="hostel-card" data-location="mumbai bombay" data-gender="coed" data-price="11000">
-            <div class="hostel-image image-mumbai"><span>🌆</span><small>MUMBAI</small></div>
-            <div class="card-content"><div class="card-top"><span class="tag coed">Co-ed</span><span class="rating">★ 4.5</span></div><h3>Harbour View Stay</h3><p class="location">📍 Andheri, Mumbai</p><p>Modern shared rooms close to metro, offices, cafés and local transport.</p><div class="card-bottom"><strong>₹11,000<span>/month</span></strong><button onclick="viewDetails('Harbour View Stay')">View details</button></div></div>
-        </article>
-
-        <article class="hostel-card" data-location="bangalore bengaluru" data-gender="boys" data-price="7500">
-            <div class="hostel-image image-bengaluru"><span>🌇</span><small>BENGALURU</small></div>
-            <div class="card-content"><div class="card-top"><span class="tag boys">Boys</span><span class="rating">★ 4.7</span></div><h3>Tech Park Homes</h3><p class="location">📍 Koramangala, Bengaluru</p><p>Student-friendly stay near tech parks with study area, Wi-Fi and meals.</p><div class="card-bottom"><strong>₹7,500<span>/month</span></strong><button onclick="viewDetails('Tech Park Homes')">View details</button></div></div>
-        </article>
-
-        <article class="hostel-card" data-location="pune" data-gender="girls" data-price="6500">
-            <div class="hostel-image image-pune"><span>🌃</span><small>PUNE</small></div>
-            <div class="card-content"><div class="card-top"><span class="tag girls">Girls</span><span class="rating">★ 4.8</span></div><h3>Lavender Girls House</h3><p class="location">📍 Viman Nagar, Pune</p><p>Furnished rooms, healthy mess, CCTV and a peaceful study-friendly environment.</p><div class="card-bottom"><strong>₹6,500<span>/month</span></strong><button onclick="viewDetails('Lavender Girls House')">View details</button></div></div>
-        </article>
-
-        <article class="hostel-card" data-location="hyderabad" data-gender="coed" data-price="7000">
-            <div class="hostel-image image-hyderabad"><span>🏢</span><small>HYDERABAD</small></div>
-            <div class="card-content"><div class="card-top"><span class="tag coed">Co-ed</span><span class="rating">★ 4.4</span></div><h3>Hitech City Living</h3><p class="location">📍 Madhapur, Hyderabad</p><p>Affordable co-living with furnished rooms, housekeeping and fast Wi-Fi.</p><div class="card-bottom"><strong>₹7,000<span>/month</span></strong><button onclick="viewDetails('Hitech City Living')">View details</button></div></div>
-        </article>
-
-        <article class="hostel-card" data-location="indore" data-gender="boys" data-price="6000">
-            <div class="hostel-image image-indore"><span>🏛️</span><small>INDORE</small></div>
-            <div class="card-content"><div class="card-top"><span class="tag boys">Boys</span><span class="rating">★ 4.5</span></div><h3>City Centre Boys Hostel</h3><p class="location">📍 Vijay Nagar, Indore</p><p>Clean rooms near colleges with food, parking, laundry and power backup.</p><div class="card-bottom"><strong>₹6,000<span>/month</span></strong><button onclick="viewDetails('City Centre Boys Hostel')">View details</button></div></div>
-        </article>
-
-        <article class="hostel-card" data-location="bhopal" data-gender="girls" data-price="5500">
-            <div class="hostel-image image-bhopal"><span>🌳</span><small>BHOPAL</small></div>
-            <div class="card-content"><div class="card-top"><span class="tag girls">Girls</span><span class="rating">★ 4.6</span></div><h3>Green Valley Girls Hostel</h3><p class="location">📍 MP Nagar, Bhopal</p><p>Safe and peaceful furnished rooms with mess, Wi-Fi and security.</p><div class="card-bottom"><strong>₹5,500<span>/month</span></strong><button onclick="viewDetails('Green Valley Girls Hostel')">View details</button></div></div>
-        </article>
-
-        <article class="hostel-card" data-location="jaipur" data-gender="coed" data-price="5500">
-            <div class="hostel-image image-jaipur"><span>🏰</span><small>JAIPUR</small></div>
-            <div class="card-content"><div class="card-top"><span class="tag coed">Co-ed</span><span class="rating">★ 4.5</span></div><h3>Pink City Co-Living</h3><p class="location">📍 Malviya Nagar, Jaipur</p><p>Budget-friendly stay near colleges with Wi-Fi, food and housekeeping.</p><div class="card-bottom"><strong>₹5,500<span>/month</span></strong><button onclick="viewDetails('Pink City Co-Living')">View details</button></div></div>
-        </article>
-
-        <article class="hostel-card" data-location="chandigarh mohali" data-gender="boys" data-price="6500">
-            <div class="hostel-image image-chandigarh"><span>🌿</span><small>CHANDIGARH</small></div>
-            <div class="card-content"><div class="card-top"><span class="tag boys">Boys</span><span class="rating">★ 4.3</span></div><h3>City Beautiful Hostel</h3><p class="location">📍 Sector 34, Chandigarh</p><p>Spacious rooms, gym access, meals and easy public transport connectivity.</p><div class="card-bottom"><strong>₹6,500<span>/month</span></strong><button onclick="viewDetails('City Beautiful Hostel')">View details</button></div></div>
-        </article>
-
-        <article class="hostel-card" data-location="kolkata calcutta" data-gender="girls" data-price="5000">
-            <div class="hostel-image image-kolkata"><span>🌉</span><small>KOLKATA</small></div>
-            <div class="card-content"><div class="card-top"><span class="tag girls">Girls</span><span class="rating">★ 4.4</span></div><h3>Lakeview Girls Residence</h3><p class="location">📍 Salt Lake, Kolkata</p><p>Comfortable girls' accommodation with meals, CCTV and housekeeping.</p><div class="card-bottom"><strong>₹5,000<span>/month</span></strong><button onclick="viewDetails('Lakeview Girls Residence')">View details</button></div></div>
-        </article>
-
-        <article class="hostel-card" data-location="ahmedabad" data-gender="coed" data-price="6000">
-            <div class="hostel-image image-ahmedabad"><span>🏙️</span><small>AHMEDABAD</small></div>
-            <div class="card-content"><div class="card-top"><span class="tag coed">Co-ed</span><span class="rating">★ 4.5</span></div><h3>Riverfront Co-Living</h3><p class="location">📍 Navrangpura, Ahmedabad</p><p>Modern rooms near universities and offices with Wi-Fi and housekeeping.</p><div class="card-bottom"><strong>₹6,000<span>/month</span></strong><button onclick="viewDetails('Riverfront Co-Living')">View details</button></div></div>
-        </article>
-
-        <article class="hostel-card" data-location="delhi noida ncr" data-gender="girls" data-price="8000">
-            <div class="hostel-image image-noida"><span>🏙️</span><small>NOIDA</small></div>
-            <div class="card-content"><div class="card-top"><span class="tag girls">Girls</span><span class="rating">★ 4.7</span></div><h3>Bloom Women Living</h3><p class="location">📍 Sector 62, Noida</p><p>Fully furnished rooms near offices and metro with meals and security.</p><div class="card-bottom"><strong>₹8,000<span>/month</span></strong><button onclick="viewDetails('Bloom Women Living')">View details</button></div></div>
-        </article>
-    </div>
-    <p id="noResults" class="no-results">No hostels found. Try another city, area or filter.</p>
-</section>
-
-<section class="why" id="about">
-    <div class="section-heading centered"><span class="eyebrow">WHY HOSTEL FINDER</span><h2>Everything you need to choose better</h2><p>Simple search. Useful comparisons. Better stays.</p></div>
-    <div class="feature-grid">
-        <div class="feature"><div class="feature-icon">🔎</div><h3>Search by city</h3><p>Explore hostel options from Delhi to Bengaluru and beyond.</p></div>
-        <div class="feature"><div class="feature-icon">💰</div><h3>Compare prices</h3><p>Use budget filters to quickly find stays that fit your pocket.</p></div>
-        <div class="feature"><div class="feature-icon">🛡️</div><h3>Know the basics</h3><p>See hostel type, location, rating and key amenities at a glance.</p></div>
-        <div class="feature"><div class="feature-icon">📱</div><h3>Mobile friendly</h3><p>Find your next stay comfortably from phone, tablet or laptop.</p></div>
-    </div>
-</section>
-
-<footer><div class="footer-logo">🏠 HostelFinder</div><p>Find • Compare • Stay</p><small>© 2026 Hostel Finder India · Demo listings for project purposes</small></footer>
-
+<article class="hostel-card" data-location="goa north goa anjuna vagator" data-gender="mixed" data-price="599"><div class="hostel-image image-goa"><span>🏖️</span><small>GOA · ANJUNA</small></div><div class="card-content"><div class="card-top"><span class="tag mixed">Mixed Dorm</span><span class="rating">★ 4.7</span></div><h3>Goa Beach Backpackers</h3><p class="location">📍 Anjuna, North Goa</p><p>Pool, café, work space, pub nights and easy access to beaches.</p><div class="card-bottom"><strong>₹599<span>/night</span></strong><button onclick="viewDetails('Goa Beach Backpackers')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="manali old manali himachal" data-gender="mixed" data-price="699"><div class="hostel-image image-manali"><span>🏔️</span><small>MANALI · OLD MANALI</small></div><div class="card-content"><div class="card-top"><span class="tag mixed">Mixed Dorm</span><span class="rating">★ 4.8</span></div><h3>Old Manali Backpackers</h3><p class="location">📍 Old Manali, Himachal Pradesh</p><p>Mountain views, café, bonfire, common room and local trip meetups.</p><div class="card-bottom"><strong>₹699<span>/night</span></strong><button onclick="viewDetails('Old Manali Backpackers')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="kasol himachal parvati" data-gender="mixed" data-price="499"><div class="hostel-image image-kasol"><span>🌲</span><small>KASOL · PARVATI VALLEY</small></div><div class="card-content"><div class="card-top"><span class="tag mixed">Mixed Dorm</span><span class="rating">★ 4.6</span></div><h3>Kasol Riverside Hostel</h3><p class="location">📍 Kasol, Himachal Pradesh</p><p>Riverside common area, café, mountain views and trek-friendly location.</p><div class="card-bottom"><strong>₹499<span>/night</span></strong><button onclick="viewDetails('Kasol Riverside Hostel')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="rishikesh tapovan uttarakhand" data-gender="mixed" data-price="549"><div class="hostel-image image-rishikesh"><span>🧘</span><small>RISHIKESH · TAPOVAN</small></div><div class="card-content"><div class="card-top"><span class="tag mixed">Mixed Dorm</span><span class="rating">★ 4.8</span></div><h3>Ganga Valley Hostel</h3><p class="location">📍 Tapovan, Rishikesh</p><p>Rooftop café, yoga space, river access and rafting activity connections.</p><div class="card-bottom"><strong>₹549<span>/night</span></strong><button onclick="viewDetails('Ganga Valley Hostel')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="jaipur pink city rajasthan" data-gender="mixed" data-price="599"><div class="hostel-image image-jaipur"><span>🏰</span><small>JAIPUR · RAJASTHAN</small></div><div class="card-content"><div class="card-top"><span class="tag mixed">Mixed Dorm</span><span class="rating">★ 4.6</span></div><h3>Pink City Social Hostel</h3><p class="location">📍 Jaipur, Rajasthan</p><p>Rooftop, café, walking tours and a social common room for travellers.</p><div class="card-bottom"><strong>₹599<span>/night</span></strong><button onclick="viewDetails('Pink City Social Hostel')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="udaipur rajasthan lake pichola" data-gender="female" data-price="699"><div class="hostel-image image-udaipur"><span>🌅</span><small>UDAIPUR · RAJASTHAN</small></div><div class="card-content"><div class="card-top"><span class="tag female">Female Dorm</span><span class="rating">★ 4.7</span></div><h3>Lake City Girls Hostel</h3><p class="location">📍 Udaipur, Rajasthan</p><p>Female-only dorms, rooftop views, café and walking distance to old city.</p><div class="card-bottom"><strong>₹699<span>/night</span></strong><button onclick="viewDetails('Lake City Girls Hostel')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="jaisalmer sam dunes rajasthan" data-gender="mixed" data-price="799"><div class="hostel-image image-jaisalmer"><span>🐪</span><small>JAISALMER · RAJASTHAN</small></div><div class="card-content"><div class="card-top"><span class="tag mixed">Mixed Dorm</span><span class="rating">★ 4.5</span></div><h3>Golden Fort Backpackers</h3><p class="location">📍 Jaisalmer, Rajasthan</p><p>Fort views, rooftop dinners and easy desert safari arrangements.</p><div class="card-bottom"><strong>₹799<span>/night</span></strong><button onclick="viewDetails('Golden Fort Backpackers')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="varanasi banaras uttar pradesh" data-gender="mixed" data-price="449"><div class="hostel-image image-varanasi"><span>🛕</span><small>VARANASI · UTTAR PRADESH</small></div><div class="card-content"><div class="card-top"><span class="tag mixed">Mixed Dorm</span><span class="rating">★ 4.4</span></div><h3>Ghat Side Backpackers</h3><p class="location">📍 Varanasi, Uttar Pradesh</p><p>Social common room near the ghats with walking tours and café.</p><div class="card-bottom"><strong>₹449<span>/night</span></strong><button onclick="viewDetails('Ghat Side Backpackers')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="dharamkot mcleodganj dharamshala himachal" data-gender="mixed" data-price="499"><div class="hostel-image image-dharamkot"><span>⛰️</span><small>DHARAMKOT · HIMACHAL</small></div><div class="card-content"><div class="card-top"><span class="tag mixed">Mixed Dorm</span><span class="rating">★ 4.7</span></div><h3>Dharamkot Mountain Hostel</h3><p class="location">📍 Dharamkot, Himachal Pradesh</p><p>Mountain café, yoga, work-friendly space and trek meetups.</p><div class="card-bottom"><strong>₹499<span>/night</span></strong><button onclick="viewDetails('Dharamkot Mountain Hostel')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="mcleodganj dharamshala himachal" data-gender="female" data-price="549"><div class="hostel-image image-mcleodganj"><span>🏔️</span><small>MCLEOD GANJ · HIMACHAL</small></div><div class="card-content"><div class="card-top"><span class="tag female">Female Dorm</span><span class="rating">★ 4.6</span></div><h3>Dhauladhar Girls Hostel</h3><p class="location">📍 McLeod Ganj, Himachal Pradesh</p><p>Female dorms with mountain views, café and easy trek access.</p><div class="card-bottom"><strong>₹549<span>/night</span></strong><button onclick="viewDetails('Dhauladhar Girls Hostel')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="bir billing himachal paragliding" data-gender="mixed" data-price="599"><div class="hostel-image image-bir"><span>🪂</span><small>BIR · HIMACHAL</small></div><div class="card-content"><div class="card-top"><span class="tag mixed">Mixed Dorm</span><span class="rating">★ 4.8</span></div><h3>Bir Billing Nomads</h3><p class="location">📍 Bir, Himachal Pradesh</p><p>Paragliding-friendly stay with café, chill zone and community events.</p><div class="card-bottom"><strong>₹599<span>/night</span></strong><button onclick="viewDetails('Bir Billing Nomads')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="hampi karnataka" data-gender="mixed" data-price="449"><div class="hostel-image image-hampi"><span>🪨</span><small>HAMPI · KARNATAKA</small></div><div class="card-content"><div class="card-top"><span class="tag mixed">Mixed Dorm</span><span class="rating">★ 4.5</span></div><h3>Hampi Backpackers Hub</h3><p class="location">📍 Hampi, Karnataka</p><p>Chill courtyard, cycle rentals, local walks and traveller hangout.</p><div class="card-bottom"><strong>₹449<span>/night</span></strong><button onclick="viewDetails('Hampi Backpackers Hub')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="gokarna karnataka beach" data-gender="mixed" data-price="499"><div class="hostel-image image-gokarna"><span>🌊</span><small>GOKARNA · KARNATAKA</small></div><div class="card-content"><div class="card-top"><span class="tag mixed">Mixed Dorm</span><span class="rating">★ 4.6</span></div><h3>Gokarna Beach Hostel</h3><p class="location">📍 Gokarna, Karnataka</p><p>Beachside vibe, hammocks, café and easy access to coastal trails.</p><div class="card-bottom"><strong>₹499<span>/night</span></strong><button onclick="viewDetails('Gokarna Beach Hostel')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="pondicherry puducherry white town" data-gender="private" data-price="1199"><div class="hostel-image image-pondicherry"><span>🌴</span><small>PONDICHERRY</small></div><div class="card-content"><div class="card-top"><span class="tag private">Private Room</span><span class="rating">★ 4.5</span></div><h3>White Town Travellers Stay</h3><p class="location">📍 White Town, Pondicherry</p><p>Private rooms, bicycles, café and walkable access to the promenade.</p><div class="card-bottom"><strong>₹1,199<span>/night</span></strong><button onclick="viewDetails('White Town Travellers Stay')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="delhi paharganj new delhi" data-gender="mixed" data-price="399"><div class="hostel-image image-delhi"><span>🏙️</span><small>DELHI · PAHARGANJ</small></div><div class="card-content"><div class="card-top"><span class="tag mixed">Mixed Dorm</span><span class="rating">★ 4.3</span></div><h3>Delhi Traveller's Den</h3><p class="location">📍 Paharganj, New Delhi</p><p>Budget dorms near New Delhi station with café and city tour connections.</p><div class="card-bottom"><strong>₹399<span>/night</span></strong><button onclick="viewDetails('Delhi Traveller\'s Den')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="mumbai colaba bandra maharashtra" data-gender="female" data-price="999"><div class="hostel-image image-mumbai"><span>🌆</span><small>MUMBAI · COLABA</small></div><div class="card-content"><div class="card-top"><span class="tag female">Female Dorm</span><span class="rating">★ 4.5</span></div><h3>Colaba Girls Backpackers</h3><p class="location">📍 Colaba, Mumbai</p><p>Female dorms near cafés and heritage sights with social lounge.</p><div class="card-bottom"><strong>₹999<span>/night</span></strong><button onclick="viewDetails('Colaba Girls Backpackers')">View stay</button></div></div></article>
+<article class="hostel-card" data-location="leh ladakh" data-gender="male" data-price="899"><div class="hostel-image image-leh"><span>🏔️</span><small>LEH · LADAKH</small></div><div class="card-content"><div class="card-top"><span class="tag male">Male Dorm</span><span class="rating">★ 4.7</span></div><h3>Leh Mountain Nomads</h3><p class="location">📍 Leh, Ladakh</p><p>Bike-trip friendly hostel with common room, rooftop and travel desk.</p><div class="card-bottom"><strong>₹899<span>/night</span></strong><button onclick="viewDetails('Leh Mountain Nomads')">View stay</button></div></div></article>
+</div><p id="noResults" class="no-results">No hostels found. Try another destination or filter.</p></section>
+<section class="why" id="about"><div class="section-heading centered"><span class="eyebrow">WHY HOSTEL FINDER</span><h2>Built for the travel community</h2><p>Find a bed, meet travellers and explore more.</p></div><div class="feature-grid"><div class="feature"><div class="feature-icon">🛏️</div><h3>Dorms & private rooms</h3><p>Choose a social dorm or your own private space.</p></div><div class="feature"><div class="feature-icon">🎒</div><h3>Backpacker friendly</h3><p>Stay close to beaches, mountains, cafés and trails.</p></div><div class="feature"><div class="feature-icon">🤝</div><h3>Meet travellers</h3><p>Common rooms, events and social spaces make it easy to connect.</p></div><div class="feature"><div class="feature-icon">🗺️</div><h3>Travel destinations</h3><p>Discover hostels across India's most popular backpacker routes.</p></div></div></section>
+<footer><div class="footer-logo">🏠 HostelFinder</div><p>Find • Explore • Meet • Stay</p><small>© 2026 Hostel Finder India · Demo listings for project purposes</small></footer>
 <div class="modal" id="detailsModal"><div class="modal-card"><button class="close-btn" onclick="closeDetails()">×</button><h2 id="modalTitle">Hostel Details</h2><div id="modalBody"></div><button class="primary-action" onclick="closeDetails()">Close</button></div></div>
 <div class="modal" id="loginModal"><div class="modal-card login-card"><button class="close-btn" onclick="closeLogin()">×</button><h2>Welcome Back 👋</h2><p>Login to Hostel Finder</p><form onsubmit="handleLogin(event)"><label>Email</label><input id="loginEmail" type="email" placeholder="you@example.com" required><label>Password</label><input id="loginPassword" type="password" placeholder="Enter password" required><button class="primary-action" type="submit">Login</button></form></div></div>
 <script src="script.js"></script>
-</body>
-</html>
+</body></html>
