@@ -3,228 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hostel Finder - Search affordable hostels, PGs and rooms.">
     <title>Hostel Finder</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <header class="navbar">
     <div class="logo">🏠 Hostel Finder</div>
-
     <nav>
-        <a href="#">Home</a>
-        <a href="#hostels">Hostels</a>
-        <a href="#about">About</a>
+        <a href="#">Home</a><a href="#hostels">Hostels</a><a href="#about">About</a>
     </nav>
-
-    <button class="login-btn">Login</button>
+    <button class="login-btn" onclick="openLogin()">Login</button>
 </header>
 
 <section class="hero">
     <div class="hero-content">
+        <span class="hero-badge">🏠 Find • Compare • Stay</span>
         <h1>Find Your Perfect Hostel</h1>
         <p>Search affordable hostels, PGs and rooms near you.</p>
-
         <div class="search-box">
-            <input
-                type="text"
-                id="locationInput"
-                placeholder="Enter city or location..."
-            >
-
+            <input type="text" id="locationInput" placeholder="Enter city or location..." onkeydown="if(event.key==='Enter') searchHostels()">
             <select id="genderFilter">
-                <option value="all">All</option>
-                <option value="boys">Boys</option>
-                <option value="girls">Girls</option>
-                <option value="coed">Co-ed</option>
+                <option value="all">All</option><option value="boys">Boys</option><option value="girls">Girls</option><option value="coed">Co-ed</option>
             </select>
-
-            <button onclick="searchHostels()">Search</button>
+            <button onclick="searchHostels()">🔎 Search</button>
         </div>
     </div>
 </section>
 
 <section class="container" id="hostels">
-
     <div class="section-header">
-        <div>
-            <h2>Popular Hostels</h2>
-            <p>Find a comfortable place to stay.</p>
-        </div>
-
+        <div><h2>Popular Hostels</h2><p>Find a comfortable place to stay.</p><span id="resultCount" class="result-count">4 hostels found</span></div>
         <select id="priceFilter" onchange="filterByPrice()">
-            <option value="all">Price: All</option>
-            <option value="5000">Under ₹5,000</option>
-            <option value="8000">Under ₹8,000</option>
-            <option value="10000">Under ₹10,000</option>
+            <option value="all">Price: All</option><option value="5000">Under ₹5,000</option><option value="8000">Under ₹8,000</option><option value="10000">Under ₹10,000</option>
         </select>
     </div>
 
     <div class="hostel-grid" id="hostelList">
-
-        <div class="hostel-card"
-             data-location="bhopal"
-             data-gender="boys"
-             data-price="4500">
-
-            <div class="hostel-image">🏠</div>
-
-            <div class="card-content">
-                <span class="tag boys">Boys</span>
-
-                <h3>Sunrise Boys Hostel</h3>
-
-                <p class="location">📍 Bhopal, MP</p>
-
-                <p>
-                    Comfortable rooms with Wi-Fi, food,
-                    laundry and 24×7 security.
-                </p>
-
-                <div class="card-bottom">
-                    <strong>₹4,500/month</strong>
-                    <button onclick="viewDetails('Sunrise Boys Hostel')">
-                        View
-                    </button>
-                </div>
-            </div>
+        <div class="hostel-card" data-location="bhopal" data-gender="boys" data-price="4500">
+            <div class="hostel-image">🏠</div><div class="card-content"><span class="tag boys">Boys</span><h3>Sunrise Boys Hostel</h3><p class="location">📍 Bhopal, MP</p><p>Comfortable rooms with Wi-Fi, food, laundry and 24×7 security.</p><div class="card-bottom"><strong>₹4,500/month</strong><button onclick="viewDetails('Sunrise Boys Hostel')">View</button></div></div>
         </div>
-
-
-        <div class="hostel-card"
-             data-location="bhopal"
-             data-gender="girls"
-             data-price="5500">
-
-            <div class="hostel-image">🏡</div>
-
-            <div class="card-content">
-                <span class="tag girls">Girls</span>
-
-                <h3>Green Valley Girls Hostel</h3>
-
-                <p class="location">📍 Bhopal, MP</p>
-
-                <p>
-                    Safe and peaceful hostel with
-                    furnished rooms and mess facility.
-                </p>
-
-                <div class="card-bottom">
-                    <strong>₹5,500/month</strong>
-                    <button onclick="viewDetails('Green Valley Girls Hostel')">
-                        View
-                    </button>
-                </div>
-            </div>
+        <div class="hostel-card" data-location="bhopal" data-gender="girls" data-price="5500">
+            <div class="hostel-image">🏡</div><div class="card-content"><span class="tag girls">Girls</span><h3>Green Valley Girls Hostel</h3><p class="location">📍 Bhopal, MP</p><p>Safe and peaceful hostel with furnished rooms and mess facility.</p><div class="card-bottom"><strong>₹5,500/month</strong><button onclick="viewDetails('Green Valley Girls Hostel')">View</button></div></div>
         </div>
-
-
-        <div class="hostel-card"
-             data-location="indore"
-             data-gender="coed"
-             data-price="7000">
-
-            <div class="hostel-image">🏢</div>
-
-            <div class="card-content">
-                <span class="tag coed">Co-ed</span>
-
-                <h3>City View Hostel</h3>
-
-                <p class="location">📍 Indore, MP</p>
-
-                <p>
-                    Modern hostel near colleges and
-                    public transport.
-                </p>
-
-                <div class="card-bottom">
-                    <strong>₹7,000/month</strong>
-                    <button onclick="viewDetails('City View Hostel')">
-                        View
-                    </button>
-                </div>
-            </div>
+        <div class="hostel-card" data-location="indore" data-gender="coed" data-price="7000">
+            <div class="hostel-image">🏢</div><div class="card-content"><span class="tag coed">Co-ed</span><h3>City View Hostel</h3><p class="location">📍 Indore, MP</p><p>Modern hostel near colleges and public transport.</p><div class="card-bottom"><strong>₹7,000/month</strong><button onclick="viewDetails('City View Hostel')">View</button></div></div>
         </div>
-
-
-        <div class="hostel-card"
-             data-location="delhi"
-             data-gender="boys"
-             data-price="8500">
-
-            <div class="hostel-image">🏙️</div>
-
-            <div class="card-content">
-                <span class="tag boys">Boys</span>
-
-                <h3>Metro Stay Hostel</h3>
-
-                <p class="location">📍 New Delhi</p>
-
-                <p>
-                    Affordable rooms located close
-                    to metro and major markets.
-                </p>
-
-                <div class="card-bottom">
-                    <strong>₹8,500/month</strong>
-                    <button onclick="viewDetails('Metro Stay Hostel')">
-                        View
-                    </button>
-                </div>
-            </div>
+        <div class="hostel-card" data-location="delhi" data-gender="boys" data-price="8500">
+            <div class="hostel-image">🏙️</div><div class="card-content"><span class="tag boys">Boys</span><h3>Metro Stay Hostel</h3><p class="location">📍 New Delhi</p><p>Affordable rooms located close to metro and major markets.</p><div class="card-bottom"><strong>₹8,500/month</strong><button onclick="viewDetails('Metro Stay Hostel')">View</button></div></div>
         </div>
-
     </div>
-
-    <p id="noResults" class="no-results">
-        No hostels found.
-    </p>
-
+    <p id="noResults" class="no-results">No hostels found. Try another location or filter.</p>
 </section>
 
 <section class="features" id="about">
-
     <h2>Why Choose Hostel Finder?</h2>
-
     <div class="feature-grid">
-
-        <div class="feature">
-            <div>🔎</div>
-            <h3>Easy Search</h3>
-            <p>Find hostels according to your location and budget.</p>
-        </div>
-
-        <div class="feature">
-            <div>💰</div>
-            <h3>Affordable</h3>
-            <p>Compare hostels and find rooms within your budget.</p>
-        </div>
-
-        <div class="feature">
-            <div>🛡️</div>
-            <h3>Safe Stay</h3>
-            <p>Find comfortable and secure accommodation.</p>
-        </div>
-
-        <div class="feature">
-            <div>📍</div>
-            <h3>Best Locations</h3>
-            <p>Discover hostels near colleges, offices and transport.</p>
-        </div>
-
+        <div class="feature"><div>🔎</div><h3>Easy Search</h3><p>Find hostels according to your location and budget.</p></div>
+        <div class="feature"><div>💰</div><h3>Affordable</h3><p>Compare hostels and find rooms within your budget.</p></div>
+        <div class="feature"><div>🛡️</div><h3>Safe Stay</h3><p>Find comfortable and secure accommodation.</p></div>
+        <div class="feature"><div>📍</div><h3>Best Locations</h3><p>Discover hostels near colleges, offices and transport.</p></div>
     </div>
-
 </section>
 
-<footer>
-    <p>© 2026 Hostel Finder | Find. Compare. Stay.</p>
-</footer>
+<footer><p>© 2026 Hostel Finder | Find. Compare. Stay.</p></footer>
+
+<div class="modal" id="detailsModal"><div class="modal-card"><button class="close-btn" onclick="closeDetails()">×</button><h2 id="modalTitle">Hostel Details</h2><div id="modalBody"></div><button class="primary-action" onclick="closeDetails()">Close</button></div></div>
+<div class="modal" id="loginModal"><div class="modal-card login-card"><button class="close-btn" onclick="closeLogin()">×</button><h2>Welcome Back 👋</h2><p>Login to Hostel Finder</p><form onsubmit="handleLogin(event)"><label>Email</label><input id="loginEmail" type="email" placeholder="you@example.com" required><label>Password</label><input id="loginPassword" type="password" placeholder="Enter password" required><button class="primary-action" type="submit">Login</button></form></div></div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
